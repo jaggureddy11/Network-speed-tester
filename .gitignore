@@ -1,0 +1,26 @@
+# Node
+node_modules/
+.next/
+out/
+build/
+.next-env.d.ts
+npm-debug.log*
+
+# Java/Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.tar.gz
+
+# IDEs & System
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
