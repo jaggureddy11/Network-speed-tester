@@ -62,44 +62,44 @@ export default function AIInsights({
   return (
     <div className="glass-panel rounded-3xl p-6 w-full relative overflow-hidden">
       {/* Decorative border line */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 to-purple-600" />
+      <div className="absolute top-0 left-0 right-0 h-1 bg-blue-600" />
       
       <div className="flex items-center gap-2.5 mb-5">
-        <Cpu className="w-5 h-5 text-cyan-400" />
-        <h3 className="font-bold text-lg text-white">AI Connection Insights</h3>
+        <Cpu className="w-5 h-5 text-blue-600" />
+        <h3 className="font-bold text-lg text-slate-850">AI Connection Insights</h3>
       </div>
 
       {/* Task Suitability Badges */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         {/* 4K Streaming */}
         <div className={`p-4 rounded-xl border flex items-center gap-3 transition-colors ${
-          canStream4K ? 'border-emerald-500/20 bg-emerald-500/5 text-emerald-400' : 'border-slate-800 bg-slate-900/20 text-slate-400'
+          canStream4K ? 'border-emerald-200 bg-emerald-50 text-emerald-700' : 'border-slate-200 bg-slate-50 text-slate-400'
         }`}>
           <Tv className="w-5 h-5 shrink-0" />
           <div className="flex flex-col">
-            <span className="text-xs font-semibold text-slate-300">4K UHD Streaming</span>
+            <span className="text-xs font-semibold text-slate-700">4K UHD Streaming</span>
             <span className="text-[10px] font-bold uppercase mt-0.5">{canStream4K ? 'Optimal' : 'Limited'}</span>
           </div>
         </div>
 
         {/* Gaming */}
         <div className={`p-4 rounded-xl border flex items-center gap-3 transition-colors ${
-          canGame ? 'border-cyan-500/20 bg-cyan-500/5 text-cyan-400' : 'border-slate-800 bg-slate-900/20 text-slate-400'
+          canGame ? 'border-blue-200 bg-blue-50 text-blue-700' : 'border-slate-200 bg-slate-50 text-slate-400'
         }`}>
           <Gamepad2 className="w-5 h-5 shrink-0" />
           <div className="flex flex-col">
-            <span className="text-xs font-semibold text-slate-300">Online Gaming</span>
+            <span className="text-xs font-semibold text-slate-700">Online Gaming</span>
             <span className="text-[10px] font-bold uppercase mt-0.5">{canGame ? 'Lag-Free' : 'Potential Lag'}</span>
           </div>
         </div>
 
         {/* Video Conference */}
         <div className={`p-4 rounded-xl border flex items-center gap-3 transition-colors ${
-          canZoom ? 'border-purple-500/20 bg-purple-500/5 text-purple-400' : 'border-slate-800 bg-slate-900/20 text-slate-400'
+          canZoom ? 'border-indigo-200 bg-indigo-50 text-indigo-700' : 'border-slate-200 bg-slate-50 text-slate-400'
         }`}>
           <Video className="w-5 h-5 shrink-0" />
           <div className="flex flex-col">
-            <span className="text-xs font-semibold text-slate-300">Video Conferencing</span>
+            <span className="text-xs font-semibold text-slate-700">Video Conferencing</span>
             <span className="text-[10px] font-bold uppercase mt-0.5">{canZoom ? 'Excellent' : 'Unstable'}</span>
           </div>
         </div>
@@ -107,12 +107,12 @@ export default function AIInsights({
 
       {/* Recommendations Bullet List */}
       <div className="space-y-3.5">
-        <span className="text-xs text-slate-400 font-bold uppercase tracking-widest block mb-1">
+        <span className="text-xs text-slate-500 font-bold uppercase tracking-widest block mb-1">
           Recommendations
         </span>
         {insightsList.map((insight, idx) => (
-          <div key={idx} className="flex gap-2.5 items-start text-sm text-slate-300">
-            <ShieldCheck className="w-4 h-4 text-cyan-500 shrink-0 mt-0.5" />
+          <div key={idx} className="flex gap-2.5 items-start text-sm text-slate-650">
+            <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
             <p className="leading-relaxed">{insight}</p>
           </div>
         ))}
