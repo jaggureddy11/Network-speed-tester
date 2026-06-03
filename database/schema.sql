@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS speed_tests (
     ping DOUBLE PRECISION NOT NULL,
     jitter DOUBLE PRECISION NOT NULL,
     network_quality VARCHAR(50) NOT NULL,
+    score INTEGER NOT NULL DEFAULT 0,
     ip_address VARCHAR(45),
     isp_name VARCHAR(255),
     device_info VARCHAR(255),

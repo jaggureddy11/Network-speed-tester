@@ -263,7 +263,7 @@ export function useSpeedTest(userId: string = 'guest-user-123') {
         status: 'completed',
         progress: 1.0,
         grade: data.networkQuality,
-        score: data.score || 95,
+        score: data.score,
       }));
     } catch (err) {
       console.error('Error saving speed test results:', err);

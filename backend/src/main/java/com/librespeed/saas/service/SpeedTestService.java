@@ -3,7 +3,6 @@ package com.librespeed.saas.service;
 import com.librespeed.saas.model.NetworkQuality;
 import com.librespeed.saas.model.SpeedTest;
 import com.librespeed.saas.repository.SpeedTestRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +34,7 @@ public class SpeedTestService {
                 test.getJitter()
         );
         test.setNetworkQuality(quality.grade());
+        test.setScore(quality.score());
         return repository.save(test);
     }
 

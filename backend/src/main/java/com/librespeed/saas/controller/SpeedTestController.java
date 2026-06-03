@@ -4,8 +4,6 @@ import com.librespeed.saas.model.SpeedTest;
 import com.librespeed.saas.service.SpeedTestService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

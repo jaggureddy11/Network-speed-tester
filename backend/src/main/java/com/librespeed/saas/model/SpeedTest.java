@@ -29,6 +29,9 @@ public class SpeedTest {
     @Column(name = "network_quality", nullable = false, length = 50)
     private String networkQuality;
 
+    @Column(nullable = false)
+    private Integer score = 0;
+
     @Column(name = "ip_address", length = 45)
     private String ipAddress;
 
@@ -51,7 +54,7 @@ public class SpeedTest {
 
     // All Arguments Constructor
     public SpeedTest(Long id, String userId, Double downloadSpeed, Double uploadSpeed, Double ping, Double jitter,
-                     String networkQuality, String ipAddress, String ispName, String deviceInfo,
+                     String networkQuality, Integer score, String ipAddress, String ispName, String deviceInfo,
                      String connectionInfo, OffsetDateTime createdAt) {
         this.id = id;
         this.userId = userId;
@@ -60,6 +63,7 @@ public class SpeedTest {
         this.ping = ping;
         this.jitter = jitter;
         this.networkQuality = networkQuality;
+        this.score = score != null ? score : 0;
         this.ipAddress = ipAddress;
         this.ispName = ispName;
         this.deviceInfo = deviceInfo;
@@ -96,6 +100,9 @@ public class SpeedTest {
     public String getNetworkQuality() { return networkQuality; }
     public void setNetworkQuality(String networkQuality) { this.networkQuality = networkQuality; }
 
+    public Integer getScore() { return score; }
+    public void setScore(Integer score) { this.score = score; }
+
     public String getIpAddress() { return ipAddress; }
     public void setIpAddress(String ipAddress) { this.ipAddress = ipAddress; }
 
@@ -124,6 +131,7 @@ public class SpeedTest {
         private Double ping;
         private Double jitter;
         private String networkQuality;
+        private Integer score;
         private String ipAddress;
         private String ispName;
         private String deviceInfo;
@@ -139,6 +147,7 @@ public class SpeedTest {
         public SpeedTestBuilder ping(Double ping) { this.ping = ping; return this; }
         public SpeedTestBuilder jitter(Double jitter) { this.jitter = jitter; return this; }
         public SpeedTestBuilder networkQuality(String networkQuality) { this.networkQuality = networkQuality; return this; }
+        public SpeedTestBuilder score(Integer score) { this.score = score; return this; }
         public SpeedTestBuilder ipAddress(String ipAddress) { this.ipAddress = ipAddress; return this; }
         public SpeedTestBuilder ispName(String ispName) { this.ispName = ispName; return this; }
         public SpeedTestBuilder deviceInfo(String deviceInfo) { this.deviceInfo = deviceInfo; return this; }
@@ -146,7 +155,7 @@ public class SpeedTest {
         public SpeedTestBuilder createdAt(OffsetDateTime createdAt) { this.createdAt = createdAt; return this; }
 
         public SpeedTest build() {
-            return new SpeedTest(id, userId, downloadSpeed, uploadSpeed, ping, jitter, networkQuality, ipAddress, ispName, deviceInfo, connectionInfo, createdAt);
+            return new SpeedTest(id, userId, downloadSpeed, uploadSpeed, ping, jitter, networkQuality, score, ipAddress, ispName, deviceInfo, connectionInfo, createdAt);
         }
     }
 }
