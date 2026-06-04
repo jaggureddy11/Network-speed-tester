@@ -36,15 +36,17 @@ export default function Speedometer({
   const arcLength = strokeLength * 0.5; // 180 degrees semicircle
   const strokeDashoffset = arcLength - (clampedSpeed / maxSpeed) * arcLength;
 
+  const needleAngle = (clampedSpeed / maxSpeed) * 180;
+
   const isTesting = ['ping', 'download', 'upload', 'initializing'].includes(status);
   const isSaving = status === 'saving';
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 relative w-full">
-      <div className="relative w-80 h-72 flex items-center justify-center bg-transparent">
-        
-        {/* Gauge SVG (Standard orientation: 0 degrees is 3 o'clock, 180 degrees is 9 o'clock) */}
-        <svg className="w-full h-full overflow-visible" viewBox="0 0 260 260">
+    <div className="flex flex-col items-center justify-center p-2 w-full">
+      
+      {/* Gauge Semicircle Container */}
+      <div className="w-full max-w-[280px] h-[150px] flex items-center justify-center relative overflow-hidden select-none">
+        <svg className="w-full h-full overflow-visible" viewBox="0 10 260 138">
           <defs>
             {/* Simple Colorful Sweep Gradient */}
             <linearGradient id="activeGlow" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -54,7 +56,7 @@ export default function Speedometer({
             </linearGradient>
           </defs>
 
-          {/* Semicircle Track Circle (Starts at 180 degrees and sweeps 180 degrees clockwise) */}
+          {/* Semicircle Track Circle */}
           <circle
             cx="130"
             cy="130"
@@ -82,10 +84,10 @@ export default function Speedometer({
             transition={{ type: 'spring', damping: 24, stiffness: 55 }}
           />
 
-          {/* Minor Ticks (180 degrees to 360 degrees) */}
+          {/* Minor Ticks (180 to 360 degrees) */}
           {Array.from({ length: 51 }).map((_, idx) => {
             if (idx % 5 === 0) return null;
-            const angle = 180 + idx * 3.6; // 180 / 50 = 3.6 degrees per step
+            const angle = 180 + idx * 3.6;
             const rad = (angle * Math.PI) / 180;
             const x1 = Number((130 + (radius - 8) * Math.cos(rad)).toFixed(3));
             const y1 = Number((130 + (radius - 8) * Math.sin(rad)).toFixed(3));
@@ -107,16 +109,15 @@ export default function Speedometer({
             );
           })}
 
-          {/* Major Ticks and Value Labels (180 degrees to 360 degrees) */}
+          {/* Major Ticks and Value Labels (180 to 360 degrees) */}
           {Array.from({ length: 11 }).map((_, idx) => {
-            const angle = 180 + idx * 18; // 180 / 10 = 18 degrees per step
+            const angle = 180 + idx * 18;
             const rad = (angle * Math.PI) / 180;
             const x1 = Number((130 + (radius - 12) * Math.cos(rad)).toFixed(3));
             const y1 = Number((130 + (radius - 12) * Math.sin(rad)).toFixed(3));
             const x2 = Number((130 + (radius - 4) * Math.cos(rad)).toFixed(3));
             const y2 = Number((130 + (radius - 4) * Math.sin(rad)).toFixed(3));
             
-            // Speed label positions
             const xl = Number((130 + (radius - 24) * Math.cos(rad)).toFixed(3));
             const yl = Number((130 + (radius - 24) * Math.sin(rad)).toFixed(3));
             const val = Math.round((idx / 10) * maxSpeed);
@@ -125,7 +126,6 @@ export default function Speedometer({
 
             return (
               <g key={`major-${idx}`}>
-                {/* Major Tick line */}
                 <line
                   x1={x1}
                   y1={y1}
@@ -135,7 +135,6 @@ export default function Speedometer({
                   strokeWidth={isActive ? '2.5' : '1.5'}
                   className="transition-colors duration-200"
                 />
-                {/* Tick Speed Number */}
                 <text
                   x={xl}
                   y={yl}
@@ -152,15 +151,15 @@ export default function Speedometer({
             );
           })}
 
-          {/* Real Speedometer Needle (Drawn pointing left, rotates clockwise up to 180 degrees) */}
+          {/* Semicircle Needle */}
           <g 
             style={{ 
-              transform: `rotate(${(clampedSpeed / maxSpeed) * 180}deg)`, 
+              transform: `rotate(${needleAngle}deg)`, 
               transformOrigin: '130px 130px',
               transition: 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)' 
             }}
           >
-            {/* Elegant Blue Needle pointing left initially */}
+            {/* Pointer Shaft pointing left initially */}
             <line
               x1="130"
               y1="130"
@@ -170,7 +169,7 @@ export default function Speedometer({
               strokeWidth="4"
               strokeLinecap="round"
             />
-            {/* Accent Tip */}
+            {/* Pointer Tip */}
             <line
               x1="60"
               y1="130"
@@ -199,127 +198,127 @@ export default function Speedometer({
             fill="#2563eb"
           />
         </svg>
+      </div>
 
-        {/* Digital Speed and Control Display in bottom half of cluster */}
-        <div className="absolute top-[155px] inset-x-0 flex flex-col items-center pointer-events-none">
-          <AnimatePresence mode="wait">
-            {status === 'idle' && (
-              <motion.button
-                key="go"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
+      {/* Control & Result Details (Placed in Normal HTML Flow below the gauge - Mobile Touch Friendly) */}
+      <div className="w-full flex flex-col items-center mt-3 text-center min-h-[120px] justify-start">
+        <AnimatePresence mode="wait">
+          {status === 'idle' && (
+            <motion.div
+              key="idle"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="flex flex-col items-center pt-2 w-full"
+            >
+              <button
                 onClick={onStart}
-                className="pointer-events-auto px-8 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-lg tracking-wider shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 flex items-center justify-center cursor-pointer border border-blue-700"
+                className="w-full max-w-[220px] px-8 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold text-base tracking-wider shadow-md hover:shadow-lg transition-all duration-150 cursor-pointer border border-blue-700"
               >
                 START TEST
-              </motion.button>
-            )}
+              </button>
+            </motion.div>
+          )}
 
-            {isTesting && (
-              <motion.div
-                key="testing"
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                className="flex flex-col items-center"
-              >
-                <div className="flex items-baseline justify-center">
-                  <span className="text-5xl font-black font-mono tracking-tight text-slate-800">
-                    {speed.toFixed(1)}
-                  </span>
-                </div>
-                <span className="text-slate-400 text-[10px] font-extrabold tracking-wider uppercase mt-0.5">
+          {isTesting && (
+            <motion.div
+              key="testing"
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              className="flex flex-col items-center"
+            >
+              <div className="flex items-baseline justify-center">
+                <span className="text-5xl font-black font-mono tracking-tight text-slate-800">
+                  {speed.toFixed(1)}
+                </span>
+                <span className="text-slate-400 text-xs font-black tracking-wider uppercase ml-1.5 font-mono">
                   Mbps
                 </span>
-                
-                <span className={`text-[9px] font-black px-2.5 py-0.5 rounded-full border uppercase mt-3 animate-pulse tracking-wider ${
-                  status === 'download' ? 'text-blue-600 bg-blue-50 border-blue-100' :
-                  status === 'upload' ? 'text-indigo-600 bg-indigo-50 border-indigo-100' :
-                  status === 'ping' ? 'text-slate-600 bg-slate-100 border-slate-200' : 'text-slate-400 bg-slate-50 border-slate-100'
+              </div>
+              
+              <span className={`text-[9px] font-black px-2.5 py-0.5 rounded-full border uppercase mt-2 animate-pulse tracking-wider ${
+                status === 'download' ? 'text-blue-600 bg-blue-50 border-blue-100' :
+                status === 'upload' ? 'text-indigo-600 bg-indigo-50 border-indigo-100' :
+                status === 'ping' ? 'text-slate-600 bg-slate-100 border-slate-200' : 'text-slate-400 bg-slate-50 border-slate-100'
+              }`}>
+                {status}ing
+              </span>
+
+              <button
+                onClick={onAbort}
+                className="text-[10px] text-rose-500 hover:text-rose-600 font-bold uppercase tracking-wider mt-3 underline cursor-pointer"
+              >
+                Cancel
+              </button>
+            </motion.div>
+          )}
+
+          {isSaving && (
+            <motion.div
+              key="saving"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex flex-col items-center pt-4"
+            >
+              <div className="w-6 h-6 border-2 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-2" />
+              <span className="text-[10px] font-bold text-slate-500">Saving Results...</span>
+            </motion.div>
+          )}
+
+          {status === 'completed' && (
+            <motion.div
+              key="completed"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex flex-col items-center"
+            >
+              <div className="flex flex-col items-center px-5 py-2 rounded-xl bg-slate-50 border border-slate-200/80">
+                <span className="text-[9px] text-slate-450 uppercase tracking-widest font-bold mb-0.5">
+                  Quality Grade
+                </span>
+                <span className={`text-lg font-black tracking-tight ${
+                  grade === 'Excellent' ? 'text-emerald-600' :
+                  grade === 'Good' ? 'text-blue-600' :
+                  grade === 'Fair' ? 'text-amber-600' : 'text-rose-600'
                 }`}>
-                  {status}ing
+                  {grade}
                 </span>
-
-                <button
-                  onClick={onAbort}
-                  className="pointer-events-auto text-[9px] text-rose-500 hover:text-rose-600 font-bold uppercase tracking-wider mt-3.5 underline cursor-pointer"
-                >
-                  Cancel
-                </button>
-              </motion.div>
-            )}
-
-            {isSaving && (
-              <motion.div
-                key="saving"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex flex-col items-center"
-              >
-                <div className="w-6 h-6 border-2 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-2" />
-                <span className="text-[10px] font-bold text-slate-500">Saving...</span>
-              </motion.div>
-            )}
-
-            {status === 'completed' && (
-              <motion.div
-                key="completed"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center"
-              >
-                <div className="flex flex-col items-center px-4 py-2 rounded-xl bg-slate-50 border border-slate-200/80">
-                  <span className="text-[9px] text-slate-400 uppercase tracking-widest font-bold mb-0.5">
-                    Quality Grade
+                {score && (
+                  <span className="text-slate-400 text-[9px] mt-0.5 font-bold font-mono">
+                    Score: {score}/100
                   </span>
-                  <span className={`text-lg font-black tracking-tight ${
-                    grade === 'Excellent' ? 'text-emerald-600' :
-                    grade === 'Good' ? 'text-blue-600' :
-                    grade === 'Fair' ? 'text-amber-600' : 'text-rose-600'
-                  }`}>
-                    {grade}
-                  </span>
-                  {score && (
-                    <span className="text-slate-400 text-[9px] mt-0.5 font-bold font-mono">
-                      Score: {score}/100
-                    </span>
-                  )}
-                </div>
-                
-                <button
-                  onClick={onStart}
-                  className="pointer-events-auto text-[9px] text-blue-600 hover:text-blue-700 font-bold uppercase tracking-wider mt-3.5 cursor-pointer border border-slate-200 bg-white hover:bg-slate-50 px-3 py-1.5 rounded-lg transition duration-150"
-                >
-                  Test Again
-                </button>
-              </motion.div>
-            )}
-
-            {['aborted', 'failed'].includes(status) && (
-              <motion.div
-                key="error"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex flex-col items-center"
+                )}
+              </div>
+              
+              <button
+                onClick={onStart}
+                className="text-[10px] text-blue-600 hover:text-blue-700 font-bold uppercase tracking-wider mt-3 cursor-pointer border border-slate-200 bg-white hover:bg-slate-50 px-4 py-1.5 rounded-lg transition duration-150"
               >
-                <span className="text-rose-500 font-bold text-xs tracking-wider uppercase mb-1">
-                  {status === 'aborted' ? 'Aborted' : 'Failed'}
-                </span>
-                <button
-                  onClick={onStart}
-                  className="pointer-events-auto text-[9px] text-blue-600 hover:text-blue-700 font-bold uppercase tracking-wider mt-3 cursor-pointer"
-                >
-                  Retry
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
-      
-      <div className="text-[9px] font-mono text-slate-400 font-bold uppercase tracking-widest mt-2">
-        Scale: 0 - {maxSpeed} Mbps
+                Test Again
+              </button>
+            </motion.div>
+          )}
+
+          {['aborted', 'failed'].includes(status) && (
+            <motion.div
+              key="error"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex flex-col items-center pt-2"
+            >
+              <span className="text-rose-500 font-bold text-xs tracking-wider uppercase mb-1">
+                {status === 'aborted' ? 'Aborted' : 'Failed'}
+              </span>
+              <button
+                onClick={onStart}
+                className="text-[10px] text-blue-600 hover:text-blue-700 font-bold uppercase tracking-wider mt-2.5 cursor-pointer"
+              >
+                Retry Test
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
