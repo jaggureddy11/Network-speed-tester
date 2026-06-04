@@ -1,4 +1,4 @@
-# ⚡ NetIntel.SaaS - Network Speed Intelligence Platform
+# ⚡ NST for TAB
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Next.js 15](https://img.shields.io/badge/Next.js%2015-000000?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
@@ -6,9 +6,9 @@
 [![PostgreSQL 16](https://img.shields.io/badge/PostgreSQL%2016-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
 
-NetIntel is a production-grade, highly customizable network speed testing SaaS boilerplate. It seamlessly integrates the open-source **LibreSpeed core engine** with a modern B2B React dashboard, a telemetry analytics server, and containerized orchestration.
+NST for TAB is a production-grade, highly customizable network speed testing SaaS boilerplate. It seamlessly integrates the open-source **LibreSpeed core engine** with a modern B2B React dashboard, a telemetry analytics server, and containerized orchestration.
 
-Designed with a clean, professional corporate layout, NetIntel offers enterprise clients a secure, CORS-free, self-hosted alternative to public commercial speed testers.
+Designed with a clean, professional corporate layout, NST for TAB offers enterprise clients a secure, CORS-free, self-hosted alternative to public commercial speed testers.
 
 ---
 

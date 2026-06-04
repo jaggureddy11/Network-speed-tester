@@ -7,7 +7,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'NetIntel - Production-Ready Network Intelligence SaaS',
+  title: 'NST for TAB',
   description: 'Track download speed, upload speed, ping, and jitter with real-time analytics and AI-driven connection insights.',
 };
 
@@ -38,7 +38,7 @@ export default function RootLayout({
                   </div>
                 </div>
                 <span className="font-bold text-lg tracking-tight text-slate-900">
-                  NetIntel<span className="text-blue-600 font-semibold">.SaaS</span>
+                  NST<span className="text-blue-600 font-semibold"> for TAB</span>
                 </span>
               </Link>
 
@@ -75,7 +75,7 @@ export default function RootLayout({
 
         {/* Global Footer */}
         <footer className="border-t border-slate-200 bg-white py-6 mt-12 text-center text-xs text-slate-500">
-          <p>© 2026 NetIntel SaaS. Powered by LibreSpeed Network Engine. All rights reserved.</p>
+          <p>© 2026 NST for TAB. All rights reserved.</p>
         </footer>
       </body>
     </html>
