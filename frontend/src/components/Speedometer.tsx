@@ -36,9 +36,6 @@ export default function Speedometer({
   const arcLength = strokeLength * 0.5; // 180 degrees semicircle
   const strokeDashoffset = arcLength - (clampedSpeed / maxSpeed) * arcLength;
 
-  // Semicircle needle angle: 180 degrees at speed 0 to 360 degrees at maxSpeed
-  const needleAngle = 180 + (clampedSpeed / maxSpeed) * 180;
-
   const isTesting = ['ping', 'download', 'upload', 'initializing'].includes(status);
   const isSaving = status === 'saving';
 
@@ -46,8 +43,8 @@ export default function Speedometer({
     <div className="flex flex-col items-center justify-center p-4 relative w-full">
       <div className="relative w-80 h-72 flex items-center justify-center bg-transparent">
         
-        {/* Gauge SVG */}
-        <svg className="w-full h-full transform -rotate-90 overflow-visible" viewBox="0 0 260 260">
+        {/* Gauge SVG (Standard orientation: 0 degrees is 3 o'clock, 180 degrees is 9 o'clock) */}
+        <svg className="w-full h-full overflow-visible" viewBox="0 0 260 260">
           <defs>
             {/* Simple Colorful Sweep Gradient */}
             <linearGradient id="activeGlow" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -57,13 +54,13 @@ export default function Speedometer({
             </linearGradient>
           </defs>
 
-          {/* Semicircle Track Circle */}
+          {/* Semicircle Track Circle (Starts at 180 degrees and sweeps 180 degrees clockwise) */}
           <circle
             cx="130"
             cy="130"
             r={radius}
             fill="transparent"
-            stroke="#f1f5f9" /* Light Slate Track */
+            stroke="#f1f5f9"
             strokeWidth="8"
             strokeDasharray={`${arcLength} ${strokeLength}`}
             strokeLinecap="round"
@@ -85,7 +82,7 @@ export default function Speedometer({
             transition={{ type: 'spring', damping: 24, stiffness: 55 }}
           />
 
-          {/* Minor Ticks */}
+          {/* Minor Ticks (180 degrees to 360 degrees) */}
           {Array.from({ length: 51 }).map((_, idx) => {
             if (idx % 5 === 0) return null;
             const angle = 180 + idx * 3.6; // 180 / 50 = 3.6 degrees per step
@@ -110,7 +107,7 @@ export default function Speedometer({
             );
           })}
 
-          {/* Major Ticks and Value Labels */}
+          {/* Major Ticks and Value Labels (180 degrees to 360 degrees) */}
           {Array.from({ length: 11 }).map((_, idx) => {
             const angle = 180 + idx * 18; // 180 / 10 = 18 degrees per step
             const rad = (angle * Math.PI) / 180;
@@ -155,30 +152,30 @@ export default function Speedometer({
             );
           })}
 
-          {/* Real Speedometer Needle */}
+          {/* Real Speedometer Needle (Drawn pointing left, rotates clockwise up to 180 degrees) */}
           <g 
             style={{ 
-              transform: `rotate(${needleAngle - 270}deg)`, 
+              transform: `rotate(${(clampedSpeed / maxSpeed) * 180}deg)`, 
               transformOrigin: '130px 130px',
               transition: 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)' 
             }}
           >
-            {/* Elegant Blue Needle */}
+            {/* Elegant Blue Needle pointing left initially */}
             <line
               x1="130"
               y1="130"
-              x2="130"
-              y2="45"
+              x2="45"
+              y2="130"
               stroke="#2563eb"
               strokeWidth="4"
               strokeLinecap="round"
             />
             {/* Accent Tip */}
             <line
-              x1="130"
-              y1="60"
-              x2="130"
-              y2="42"
+              x1="60"
+              y1="130"
+              x2="42"
+              y2="130"
               stroke="#60a5fa"
               strokeWidth="2"
               strokeLinecap="round"
