@@ -88,7 +88,8 @@ export default function Dashboard() {
             speed={
               metrics.status === 'download' ? metrics.downloadSpeed :
               metrics.status === 'upload' ? metrics.uploadSpeed :
-              metrics.status === 'ping' ? metrics.ping : 0
+              metrics.status === 'ping' ? metrics.ping :
+              ['completed', 'saving'].includes(metrics.status) ? metrics.downloadSpeed : 0
             }
             status={metrics.status}
             progress={metrics.progress}
