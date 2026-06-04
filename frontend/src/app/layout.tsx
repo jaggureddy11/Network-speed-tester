@@ -30,12 +30,12 @@ export default function RootLayout({
             <div className="flex justify-between items-center h-16">
               {/* Logo / Brand */}
               <Link href="/" className="flex items-center gap-2.5 group">
-                <div className="relative">
-                  <div className="w-8 h-8 rounded-lg bg-blue-600 border border-blue-700 flex items-center justify-center shadow-sm">
-                    <svg className="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
+                <div className="relative flex items-center justify-center">
+                  <img
+                    src="/logo.png"
+                    alt="NST for TAB Logo"
+                    className="w-8 h-8 rounded-lg object-contain group-hover:scale-110 transition-transform duration-200"
+                  />
                 </div>
                 <span className="font-bold text-lg tracking-tight text-slate-900">
                   NST<span className="text-blue-600 font-semibold"> for TAB</span>
